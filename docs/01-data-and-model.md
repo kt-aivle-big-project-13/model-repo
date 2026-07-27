@@ -16,16 +16,19 @@
 
 | 컬럼명 | 의미 | 이 프로젝트에서의 역할 |
 |---|---|---|
-| `SK_ID_CURR` | 대출 신청 건의 고유 식별자 | ID. 학습 피처 아님, 결과 추적용으로만 사용 |
-| `TARGET` | 정답 — 0: 정상 상환, 1: 연체 | 모델이 맞혀야 하는 값 |
-| `CODE_GENDER` | 성별 (`M`/`F`, 이상값 `XNA` 존재) | **민감변수** — 학습 제외, 감사(FairLearn)용으로만 보관 |
-| `DAYS_BIRTH` | 신청일 기준 출생일까지의 일수(음수) | `AGE`, `AGE_GROUP` 계산 원천. 민감변수 |
-| `DAYS_EMPLOYED` | 신청일 기준 근무 시작일까지의 일수(음수) | `365243`이라는 "1,000년 근무" 이상 센티널값이 존재 — 은퇴자 등을 나타내는 것으로 추정, `IS_RETIRED` 플래그로 보존 후 결측치로 치환 |
-| `EXT_SOURCE_1`/`_2`/`_3` | 외부 신용평가 기관이 산출한 정규화 점수(0~1) — 구체적 출처는 공개 안 됨 | 학습 피처로 그대로 사용 |
-| `NAME_EDUCATION_TYPE` | 최종 학력 (범주형) | 학습 피처, `category` dtype으로 인코딩 |
-| `FLAG_MOBIL` | 휴대전화 등록 여부 플래그 | 거의 모든 행이 같은 값(정보량 없음) → 학습 제외 |
-| `FLAG_DOCUMENT_2` ~ `FLAG_DOCUMENT_21` | 제출된 서류 종류별 여부(1/0), 20개 플래그 | 전부 학습 제외("서류 제출 여부"는 신용도와 무관) |
-| `WEEKDAY_APPR_PROCESS_START`, `HOUR_APPR_PROCESS_START` | 대출 신청 요일·시각 | 학습 제외("신청 요일·시간"은 업무 관례일 뿐 신용도와 무관) |
+| SK_ID_CURR | 대출 신청 건의 고유 식별자 | ID. 학습 피처 아님, 결과 추적용으로만 사용 |
+| TARGET | 정답 — 0: 정상 상환, 1: 연체 | 모델이 맞혀야 하는 값 |
+| CODE_GENDER | 성별 (`M`/`F`, 이상값 `XNA` 존재) | **민감변수** — 학습 제외, 감사(FairLearn)용으로만 보관 |
+| DAYS_BIRTH | 신청일 기준 출생일까지의 일수(음수) | `AGE`, `AGE_GROUP` 계산 원천. 민감변수 |
+| DAYS_EMPLOYED | 신청일 기준 근무 시작일까지의 일수(음수) | `365243`이라는 "1,000년 근무" 이상 센티널값이 존재 — 은퇴자 등을 나타내는 것으로 추정, `IS_RETIRED` 플래그로 보존 후 결측치로 치환 |
+| EXT_SOURCE_1/_2/_3 | 외부 신용평가 기관이 산출한 정규화 점수(0~1) — 구체적 출처는 공개 안 됨 | 학습 피처로 그대로 사용 |
+| NAME_EDUCATION_TYPE | 최종 학력 (범주형) | 학습 피처, `category` dtype으로 인코딩 |
+| FLAG_MOBIL | 휴대전화 등록 여부 플래그 | 거의 모든 행이 같은 값(정보량 없음) → 학습 제외 |
+| FLAG_DOCUMENT_2 ~ FLAG_DOCUMENT_21 | 제출된 서류 종류별 여부(1/0), 20개 플래그 | 전부 학습 제외("서류 제출 여부"는 신용도와 무관) |
+| WEEKDAY_APPR_PROCESS_START, HOUR_APPR_PROCESS_START | 대출 신청 요일·시각 | 학습 제외("신청 요일·시간"은 업무 관례일 뿐 신용도와 무관) |
+
+<br>
+
 | 건물/주거 상세 컬럼 다수 (`APARTMENTS_AVG`, `BASEMENTAREA_AVG`, `YEARS_BUILD_MODE`, `COMMONAREA_MEDI`, `ELEVATORS_AVG`, `TOTALAREA_MODE`, `WALLSMATERIAL_MODE` 등 — 이름에 `APARTMENT`/`BASEMENTAREA`/`COMMONAREA`/`ELEVATORS`/`FLOORSMAX`/`LANDAREA`/`HOUSETYPE`/`WALLSMATERIAL` 등의 키워드가 들어간 컬럼 전부) | 신청자가 사는 건물의 면적·층수·공동구역 비율 등을 평균/최고/최저 등 여러 통계치로 제공 | 학습 제외("주거 건물 상세") |
 
 ### 2-2. 파생 변수 (원본에는 없고, 전처리 중 새로 만듦)
